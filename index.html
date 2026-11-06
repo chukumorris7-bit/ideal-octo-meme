@@ -1,126 +1,194 @@
 <!DOCTYPE html>
-<html>
+<html lang="sw">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MIXVIBES V2 - CROSS DJ</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CHUKU DJ MIXER PRO V2</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:#1a1a2e;color:#fff;font-family:Arial;text-align:center}
-header{background:#16213e;padding:15px;font-size:22px;font-weight:bold;color:#ff7a00}
-.main{display:flex;gap:10px;padding:10px;justify-content:center;flex-wrap:wrap}
-.deck{flex:1;min-width:280px;background:#0f3460;border-radius:15px;padding:15px}
-.jog{width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,#333 0%,#000 70%);margin:10px auto;display:flex;align-items:center;justify-content:center;border:4px solid #ff7a00}
-.jog.spin{animation:spin 2s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.jog-center{width:60px;height:60px;background:#ff7a00;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#000}
-.file-label{display:block;background:#e94560;padding:12px;border-radius:10px;margin:10px 0;cursor:pointer}
-.file-label input{display:none}
-button{padding:12px 20px;border:none;border-radius:10px;font-weight:bold;cursor:pointer;margin:5px}
-.play{background:#00ff88;color:#000;font-size:18px;width:100%}
-input[type=range]{width:100%;accent-color:#ff7a00;margin:8px 0}
-label{font-size:13px;color:#ccc}
-.mixer{background:#16213e;padding:15px;border-radius:15px;margin:10px}
-.cross{width:100%!important;accent-color:#e94560!important}
-h3{color:#ff7a00;margin-bottom:10px}
-.song{font-size:14px;color:#00ff88;margin:5px}
+*{box-sizing:border-box} body{margin:0;background:#0a0a1a;color:#fff;font-family:Arial,sans-serif;padding:10px}
+h1{text-align:center;color:#ff7a00;font-size:22px;margin:5px} .sub{text-align:center;color:#aaa;font-size:12px}
+.decks{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.deck{background:#1a1a3a;border:2px solid #333;border-radius:15px;padding:12px}
+.deck.a{border-color:#00ccff} .deck.b{border-color:#ff00ff}
+.deck h2{text-align:center;margin:0 0 10px} .a h2{color:#00ccff} .b h2{color:#ff00ff}
+input[type=file]{width:100%;margin-bottom:8px}
+.song{font-size:13px;background:#000;padding:8px;border-radius:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:8px}
+audio{width:100%} .big{width:100%;padding:12px;border:none;border-radius:10px;font-weight:bold;font-size:16px;margin:5px 0;cursor:pointer}
+.play{background:#00ff88} .cue{background:#ffff00} .loop-on{background:#ff00ff!important;color:#fff}
+.row{display:flex;gap:5px} .row button{flex:1;padding:10px;border:none;border-radius:8px;font-weight:bold}
+label{font-size:11px;display:block;margin-top:10px;color:#ccc}
+input[type=range]{width:100%;accent-color:#ff7a00}
+.knobs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;text-align:center}
+.knobs input{width:100%}
+.mixer{background:#2d0a4e;border-radius:15px;padding:15px;margin:10px 0;text-align:center}
+.mixer h3{color:#ff7a00;margin:0 0 10px}
+.fx{background:#1a1a3a;border-radius:15px;padding:15px;margin:10px 0}
+.fx h3{color:#ff7a00;text-align:center}
+.fxgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.fxgrid button{padding:14px;border:none;border-radius:10px;font-weight:bold;cursor:pointer}
+.playlist{background:#111;border-radius:15px;padding:12px;margin:10px 0}
+.playlist div{padding:10px;background:#222;margin:5px 0;border-radius:8px;cursor:pointer;font-size:13px}
+.micrec{background:#220a0a;border-radius:15px;padding:15px;margin:10px 0;text-align:center}
+button:active{transform:scale(.96)}
 </style>
 </head>
 <body>
-<header>🎧 MIXVIBES V2 - CROSS DJ</header>
-<div class="main">
-<div class="deck">
-<h3>DECK A</h3>
-<div class="jog" id="jogA"><div class="jog-center">A</div></div>
-<div class="song" id="songA">Hakuna wimbo</div>
-<label class="file-label">📁 CHAGUA WIMBO A<input type="file" id="fileA" accept="audio/*"></label>
-<button class="play" onclick="playA()">▶ PLAY A</button>
-<label>VOLUME A</label><input type="range" id="volA" min="0" max="1" step="0.01" value="0.8">
-<label>TEMPO A</label><input type="range" id="tempoA" min="0.5" max="1.5" step="0.01" value="1">
-<label>ECHO A</label><input type="range" id="echoA" min="0" max="0.8" step="0.01" value="0">
+<h1>🎧 CHUKU DJ MIXER PRO V2</h1>
+<div class="sub">Mixer Kamili • 2 Decks • Effects • Record • Mic</div>
+
+<div class="decks">
+<!-- DECK A -->
+<div class="deck a">
+<h2>DECK A</h2>
+<input type="file" accept="audio/*" onchange="loadSong(event,'A')">
+<div class="song" id="songA">Hakuna Wimbo</div>
+<audio id="audioA" controls preload="auto"></audio>
+<button class="big play" onclick="togglePlay('A')">▶️ PLAY / PAUSE A</button>
+<div class="row">
+<button style="background:#ffff00" onclick="cue('A')">⏪ CUE</button>
+<button style="background:#ff00ff;color:#fff" id="loopA" onclick="toggleLoop('A')">🔁 LOOP</button>
+<button style="background:#00ccff" onclick="seek('A',-10)">-10s</button>
+<button style="background:#00ccff" onclick="seek('A',10)">+10s</button>
 </div>
-<div class="deck">
-<h3>DECK B</h3>
-<div class="jog" id="jogB"><div class="jog-center">B</div></div>
-<div class="song" id="songB">Hakuna wimbo</div>
-<label class="file-label">📁 CHAGUA WIMBO B<input type="file" id="fileB" accept="audio/*"></label>
-<button class="play" onclick="playB()">▶ PLAY B</button>
-<label>VOLUME B</label><input type="range" id="volB" min="0" max="1" step="0.01" value="0.8">
-<label>TEMPO B</label><input type="range" id="tempoB" min="0.5" max="1.5" step="0.01" value="1">
-<label>ECHO B</label><input type="range" id="echoB" min="0" max="0.8" step="0.01" value="0">
+<label>🔊 VOLUME A</label><input type="range" id="volA" min="0" max="1" step="0.01" value="0.8" oninput="setVol('A',this.value)">
+<label>🎚️ GAIN A</label><input type="range" id="gainA" min="0" max="2" step="0.01" value="1" oninput="setGain('A',this.value)">
+<div class="knobs">
+<div><label>BASS</label><input type="range" id="bassA" min="-20" max="20" value="0" oninput="setEQ('A','bass',this.value)"></div>
+<div><label>MID</label><input type="range" id="midA" min="-20" max="20" value="0" oninput="setEQ('A','mid',this.value)"></div>
+<div><label>TREBLE</label><input type="range" id="treA" min="-20" max="20" value="0" oninput="setEQ('A','treble',this.value)"></div>
+</div>
+<label>🎛️ FILTER A (Kushoto= Bass, Kulia= Treble)</label><input type="range" id="filterA" min="0" max="100" value="50" oninput="setFilter('A',this.value)">
+<label>⏩ TEMPO / SPEED A - <span id="tempoLabelA">1.00x</span></label><input type="range" id="tempoA" min="0.5" max="1.5" step="0.01" value="1" oninput="setTempo('A',this.value)">
+<label>🎵 PITCH A</label><input type="range" id="pitchA" min="0.5" max="1.5" step="0.01" value="1" oninput="setTempo('A',this.value)">
+</div>
+
+<!-- DECK B -->
+<div class="deck b">
+<h2>DECK B</h2>
+<input type="file" accept="audio/*" onchange="loadSong(event,'B')">
+<div class="song" id="songB">Hakuna Wimbo</div>
+<audio id="audioB" controls preload="auto"></audio>
+<button class="big play" onclick="togglePlay('B')">▶️ PLAY / PAUSE B</button>
+<div class="row">
+<button style="background:#ffff00" onclick="cue('B')">⏪ CUE</button>
+<button style="background:#ff00ff;color:#fff" id="loopB" onclick="toggleLoop('B')">🔁 LOOP</button>
+<button style="background:#00ccff" onclick="seek('B',-10)">-10s</button>
+<button style="background:#00ccff" onclick="seek('B',10)">+10s</button>
+</div>
+<label>🔊 VOLUME B</label><input type="range" id="volB" min="0" max="1" step="0.01" value="0.8" oninput="setVol('B',this.value)">
+<label>🎚️ GAIN B</label><input type="range" id="gainB" min="0" max="2" step="0.01" value="1" oninput="setGain('B',this.value)">
+<div class="knobs">
+<div><label>BASS</label><input type="range" id="bassB" min="-20" max="20" value="0" oninput="setEQ('B','bass',this.value)"></div>
+<div><label>MID</label><input type="range" id="midB" min="-20" max="20" value="0" oninput="setEQ('B','mid',this.value)"></div>
+<div><label>TREBLE</label><input type="range" id="treB" min="-20" max="20" value="0" oninput="setEQ('B','treble',this.value)"></div>
+</div>
+<label>🎛️ FILTER B</label><input type="range" id="filterB" min="0" max="100" value="50" oninput="setFilter('B',this.value)">
+<label>⏩ TEMPO / SPEED B - <span id="tempoLabelB">1.00x</span></label><input type="range" id="tempoB" min="0.5" max="1.5" step="0.01" value="1" oninput="setTempo('B',this.value)">
+<label>🎵 PITCH B</label><input type="range" id="pitchB" min="0.5" max="1.5" step="0.01" value="1" oninput="setTempo('B',this.value)">
 </div>
 </div>
+
+<!-- MIXER KATI -->
 <div class="mixer">
-<h3>🎛️ MIXER</h3>
-<label>CROSSFADER: A ◀ ▶ B</label>
-<input type="range" class="cross" id="cross" min="0" max="1" step="0.01" value="0.5">
-<button onclick="autoMix()" style="background:#ff7a00;width:100%">🔀 AUTO MIX</button>
-</div><div style="background:#2d0a4e;padding:15px;border-radius:15px;margin:10px">
-<h3 style="color:#ff7a00">🎹 DJ EFFECTS</h3>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
-<button style="background:#ff0000;color:#fff;padding:15px;border:none;border-radius:10px;font-weight:bold" onclick="airHorn()">📯 AIR HORN</button>
-<button style="background:#ff7a00;color:#fff;padding:15px;border:none;border-radius:10px;font-weight:bold" onclick="siren()">🚨 SIREN</button>
-<button style="background:#00ccff;color:#fff;padding:15px;border:none;border-radius:10px;font-weight:bold" onclick="boom()">💥 BOOM</button>
-<button style="background:#00ff88;padding:15px;border:none;border-radius:10px;font-weight:bold" onclick="rewindFx()">⏪ REWIND</button>
-<button style="background:#ff00ff;color:#fff;padding:15px;border:none;border-radius:10px;font-weight:bold" onclick="laser()">🔫 LASER</button>
-<button style="background:#ffff00;padding:15px;border:none;border-radius:10px;font-weight:bold" onclick="clap()">👏 CLAP</button>
+<h3>🎛️ MIXER YA KATI</h3>
+<label>⬅️ DECK A &nbsp;&nbsp; CROSSFADER &nbsp;&nbsp; DECK B ➡️</label>
+<input type="range" id="cross" min="0" max="100" value="50" oninput="setCross(this.value)">
+<div id="crossLabel" style="font-size:12px">⚖️ Kati Kati - Zote Zinasikika</div>
+<label>🔊 MASTER VOLUME - <span id="masterLabel">80%</span></label>
+<input type="range" id="masterVol" min="0" max="1" step="0.01" value="0.8" oninput="setMaster(this.value)">
+<div class="row" style="margin-top:10px">
+<button style="background:#00ccff;padding:12px" onclick="crossTo('A')">⬅️ A PEKEE</button>
+<button style="background:#fff;padding:12px" onclick="crossTo('C')">⚖️ KATI</button>
+<button style="background:#ff00ff;color:#fff;padding:12px" onclick="crossTo('B')">B PEKEE ➡️</button>
 </div>
-<input type="range" id="fxVol" min="0" max="1" step="0.01" value="0.8" style="width:100%;margin-top:10px">
+<button style="background:#ff0000;color:#fff;padding:12px;width:100%;margin-top:8px;border:none;border-radius:10px;font-weight:bold" onclick="stopAll()">⏹️ STOP ZOTE</button>
 </div>
+
+<!-- EFFECTS -->
+<div class="fx">
+<h3>🎹 DJ EFFECTS - Hakuna Mwangwi Sasa!</h3>
+<div class="fxgrid">
+<button style="background:#ff0000;color:#fff" onclick="airHorn()">📯 AIR HORN</button>
+<button style="background:#ff7a00;color:#fff" onclick="siren()">🚨 SIREN</button>
+<button style="background:#00ccff;color:#fff" onclick="boom()">💥 BOOM</button>
+<button style="background:#00ff88" onclick="rewindFx()">⏪ REWIND</button>
+<button style="background:#ff00ff;color:#fff" onclick="laser()">🔫 LASER</button>
+<button style="background:#ffff00" onclick="clap()">👏 CLAP</button>
+</div>
+<label>🔊 FX VOLUME</label><input type="range" id="fxVol" min="0" max="1" step="0.01" value="0.8">
+<label>🌊 ECHO / MWANGWI - Weka 0 kuizima kabisa</label><input type="range" id="echoVol" min="0" max="0.8" step="0.01" value="0">
+<div id="echoLabel" style="font-size:12px;text-align:center">Echo: OFF - Hakuna Mwangwi</div>
+</div>
+
+<!-- MIC + RECORD -->
+<div class="micrec">
+<h3 style="color:#ff7a00;margin:0">🎤 MIC & 🔴 RECORD</h3>
+<div class="row" style="margin-top:10px">
+<button style="background:#00ff88;padding:12px" onclick="toggleMic()" id="micBtn">🎤 WASHA MIC</button>
+<button style="background:#ff0000;color:#fff;padding:12px" onclick="toggleRec()" id="recBtn">🔴 ANZA KURECORD</button>
+</div>
+<label>MIC VOLUME</label><input type="range" id="micVol" min="0" max="1" step="0.01" value="0.8" oninput="setMicVol(this.value)">
+<div id="recStatus" style="font-size:12px;margin-top:5px">Hujarekodi bado</div>
+<a id="downloadLink" style="display:none;color:#00ff88;font-weight:bold">⬇️ DOWNLOAD MIX YAKO</a>
+</div>
+
+<!-- PLAYLIST -->
+<div class="playlist">
+<h3 style="color:#ff7a00;margin:0">📁 PLAYLIST YAKO</h3>
+<div style="font-size:12px;color:#aaa">Bonyeza wimbo uiweke Deck A, bonyeza kwa muda mrefu uiweke Deck B</div>
+<div id="playlist"></div>
+</div>
+
 <script>
-let ctx=new (window.AudioContext||window.webkitAudioContext)();
-let a={audio:new Audio(),gain:null,delay:null,src:null,playing:false};
-let b={audio:new Audio(),gain:null,delay:null,src:null,playing:false};
-function setup(d,volId,echoId){
- d.gain=ctx.createGain(); d.delay=ctx.createDelay(1); d.delay.delayTime.value=0.3;
- let fb=ctx.createGain(); fb.gain.value=0.3;
- d.src=ctx.createMediaElementSource(d.audio);
- d.src.connect(d.gain); d.gain.connect(ctx.destination);
- d.src.connect(d.delay); d.delay.connect(fb); fb.connect(d.delay); d.delay.connect(d.gain);
+let ctx=null, masterGain=null, micStream=null, micGain=null, recorder=null, chunks=[];
+let decks={};
+function initAudio(){
+if(ctx) return;
+ctx=new (window.AudioContext||window.webkitAudioContext)();
+masterGain=ctx.createGain(); masterGain.gain.value=0.8;
+masterGain.connect(ctx.destination);
+['A','B'].forEach(k=>{
+let el=document.getElementById('audio'+k);
+let src=ctx.createMediaElementSource(el);
+let gain=ctx.createGain(); gain.gain.value=0.8;
+let bass=ctx.createBiquadFilter(); bass.type='lowshelf'; bass.frequency.value=200;
+let mid=ctx.createBiquadFilter(); mid.type='peaking'; mid.frequency.value=1000; mid.Q.value=1;
+let tre=ctx.createBiquadFilter(); tre.type='highshelf'; tre.frequency.value=3000;
+let filt=ctx.createBiquadFilter(); filt.type='lowpass'; filt.frequency.value=20000;
+src.connect(bass); bass.connect(mid); mid.connect(tre); tre.connect(filt); filt.connect(gain); gain.connect(masterGain);
+decks[k]={el,gain,bass,mid,tre,filt,vol:0.8};
+});
 }
-setup(a,'volA','echoA'); setup(b,'volB','echoB');
-function loadFile(input,deck,songEl,jogEl){
- let f=input.files[0]; if(!f) return;
- deck.audio.src=URL.createObjectURL(f);
- document.getElementById(songEl).textContent="🎵 "+f.name;
-}
-document.getElementById('fileA').onchange=function(){loadFile(this,a,'songA')};
-document.getElementById('fileB').onchange=function(){loadFile(this,b,'songB')};
-function playA(){ ctx.resume(); if(a.playing){a.audio.pause();a.playing=false;document.getElementById('jogA').classList.remove('spin')} else {a.audio.play();a.playing=true;document.getElementById('jogA').classList.add('spin')} }
-function playB(){ ctx.resume(); if(b.playing){b.audio.pause();b.playing=false;document.getElementById('jogB').classList.remove('spin')} else {b.audio.play();b.playing=true;document.getElementById('jogB').classList.add('spin')} }
-function update(){
- let c=parseFloat(document.getElementById('cross').value);
- let vA=parseFloat(document.getElementById('volA').value);
- let vB=parseFloat(document.getElementById('volB').value);
- a.gain.gain.value=vA*(1-c); b.gain.gain.value=vB*c;
- a.audio.playbackRate=parseFloat(document.getElementById('tempoA').value);
- b.audio.playbackRate=parseFloat(document.getElementById('tempoB').value);
-}
-setInterval(update,100);
-function autoMix(){
- let c=document.getElementById('cross'); let v=parseFloat(c.value);
- let i=setInterval(()=>{ v+=0.02; if(v>=1){clearInterval(i)} c.value=v; },100);
-}function getFxVol(){ return parseFloat(document.getElementById('fxVol').value); }
-function tone(freq,dur,type,vol){
- ctx.resume(); let o=ctx.createOscillator(); let g=ctx.createGain();
- o.type=type||'sawtooth'; o.frequency.value=freq;
- g.gain.value=vol*getFxVol(); o.connect(g); g.connect(ctx.destination);
- o.start(); o.stop(ctx.currentTime+dur);
-}
-function airHorn(){ tone(233,0.8,'sawtooth',0.5); tone(466,0.8,'sawtooth',0.4); }
-function siren(){
- ctx.resume(); let o=ctx.createOscillator(); let g=ctx.createGain();
- o.type='sawtooth'; g.gain.value=0.4*getFxVol(); o.connect(g); g.connect(ctx.destination);
- o.start(); let t=ctx.currentTime; o.frequency.setValueAtTime(400,t); o.frequency.linearRampToValueAtTime(1200,t+0.5); o.frequency.linearRampToValueAtTime(400,t+1); o.stop(t+1.2);
-}
-function boom(){ tone(60,0.8,'sine',0.9); }
-function rewindFx(){
- ctx.resume(); let o=ctx.createOscillator(); let g=ctx.createGain();
- o.type='sawtooth'; g.gain.value=0.3*getFxVol(); o.connect(g); g.connect(ctx.destination);
- o.start(); let t=ctx.currentTime; o.frequency.setValueAtTime(1200,t); o.frequency.linearRampToValueAtTime(100,t+0.6); o.stop(t+0.6);
-}
-function laser(){ tone(2000,0.2,'square',0.3); }
-function clap(){ for(let i=0;i<3;i++){ setTimeout(()=>tone(1000,0.1,'square',0.3), i*120); } }
+function getEl(k){return document.getElementById('audio'+k)}
+function loadSong(e,k){initAudio(); let f=e.target.files[0]; if(!f) return; let url=URL.createObjectURL(f); getEl(k).src=url; getEl(k).play(); document.getElementById('song'+k).textContent=f.name; addToPlaylist(f.name,url); }
+function addToPlaylist(name,url){let d=document.createElement('div'); d.textContent='🎵 '+name; d.onclick=()=>{initAudio(); getEl('A').src=url; document.getElementById('songA').textContent=name; getEl('A').play();}; d.oncontextmenu=(ev)=>{ev.preventDefault(); getEl('B').src=url; document.getElementById('songB').textContent=name; getEl('B').play();}; document.getElementById('playlist').appendChild(d);}
+function togglePlay(k){initAudio(); if(ctx.state==='suspended') ctx.resume(); let a=getEl(k); if(a.paused) a.play(); else a.pause();}
+function cue(k){let a=getEl(k); a.currentTime=0; a.pause();}
+function toggleLoop(k){let a=getEl(k); a.loop=!a.loop; document.getElementById('loop'+k).classList.toggle('loop-on',a.loop);}
+function seek(k,s){getEl(k).currentTime+=s;}
+function setVol(k,v){initAudio(); decks[k].vol=parseFloat(v); applyCross();}
+function setGain(k,v){if(decks[k]) decks[k].gain.gain.value=parseFloat(v);}
+function setEQ(k,type,v){if(!decks[k]) return; let val=parseFloat(v); if(type==='bass') decks[k].bass.gain.value=val; if(type==='mid') decks[k].mid.gain.value=val; if(type==='treble') decks[k].tre.gain.value=val;}
+function setFilter(k,v){if(!decks[k]) return; let val=parseFloat(v); if(val<=50){decks[k].filt.type='lowpass'; decks[k].filt.frequency.value=500+ (val/50)*19500;} else {decks[k].filt.type='highpass'; decks[k].filt.frequency.value=((val-50)/50)*2000;}}
+function setTempo(k,v){getEl(k).playbackRate=parseFloat(v); document.getElementById('tempoLabel'+k).textContent=parseFloat(v).toFixed(2)+'x';}
+function setCross(v){applyCross(); let c=parseInt(v); let l=document.getElementById('crossLabel'); if(c<40) l.textContent='⬅️ Deck A Inasikika Zaidi'; else if(c>60) l.textContent='Deck B Inasikika Zaidi ➡️'; else l.textContent='⚖️ Kati Kati - Zote Zinasikika';}
+function applyCross(){if(!decks.A) return; let c=parseInt(document.getElementById('cross').value)/100; decks.A.gain.gain.value=decks.A.vol*(1-c); decks.B.gain.gain.value=decks.B.vol*c;}
+function crossTo(pos){let s=document.getElementById('cross'); if(pos==='A') s.value=0; if(pos==='C') s.value=50; if(pos==='B') s.value=100; setCross(s.value);}
+function setMaster(v){if(masterGain) masterGain.gain.value=parseFloat(v); document.getElementById('masterLabel').textContent=Math.round(v*100)+'%';}
+function stopAll(){getEl('A').pause(); getEl('B').pause();}
+function getFxVol(){let e=document.getElementById('fxVol'); return e?parseFloat(e.value):0.8;}
+function tone(f,d,type='sine',v=0.5,slide=0){if(!ctx) initAudio(); let o=ctx.createOscillator(), g=ctx.createGain(); o.type=type; o.frequency.setValueAtTime(f,ctx.currentTime); if(slide) o.frequency.exponentialRampToValueAtTime(slide,ctx.currentTime+d); g.gain.setValueAtTime(v*getFxVol(),ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+d); o.connect(g); g.connect(masterGain); o.start(); o.stop(ctx.currentTime+d);}
+function noise(d,v=0.5){if(!ctx) initAudio(); let len=ctx.sampleRate*d; let buf=ctx.createBuffer(1,len,ctx.sampleRate); let ch=buf.getChannelData(0); for(let i=0;i<len;i++) ch[i]=Math.random()*2-1; let s=ctx.createBufferSource(); s.buffer=buf; let g=ctx.createGain(); g.gain.setValueAtTime(v*getFxVol(),ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+d); s.connect(g); g.connect(masterGain); s.start();}
+function airHorn(){tone(440,0.8,'sawtooth',0.4); tone(554,0.8,'sawtooth',0.4); tone(659,0.8,'sawtooth',0.4);}
+function siren(){tone(600,1,'sine',0.5,1200); setTimeout(()=>tone(1200,1,'sine',0.5,600),200);}
+function boom(){tone(80,0.8,'sine',0.8,30); noise(0.3,0.4);}
+function rewindFx(){tone(1200,0.6,'sawtooth',0.4,100);}
+function laser(){tone(1500,0.3,'square',0.3,100);}
+function clap(){noise(0.15,0.6); setTimeout(()=>noise(0.15,0.6),150);}
+document.getElementById('echoVol').addEventListener('input',function(){let v=parseFloat(this.value); document.getElementById('echoLabel').textContent=v==0?'Echo: OFF - Hakuna Mwangwi':'Echo: '+Math.round(v*100)+'%';});
+async function toggleMic(){initAudio(); let b=document.getElementById('micBtn'); if(!micStream){try{micStream=await navigator.mediaDevices.getUserMedia({audio:true}); let src=ctx.createMediaStreamSource(micStream); micGain=ctx.createGain(); micGain.gain.value=parseFloat(document.getElementById('micVol').value); src.connect(micGain); micGain.connect(masterGain); b.textContent='🎤 ZIMA MIC'; b.style.background='#ff0000'; b.style.color='#fff';}catch(e){alert('Ruhusu Mic kwanza!')}} else {micStream.getTracks().forEach(t=>t.stop()); micStream=null; b.textContent='🎤 WASHA MIC'; b.style.background='#00ff88'; b.style.color='#000';}}
+function setMicVol(v){if(micGain) micGain.gain.value=parseFloat(v);}
+async function toggleRec(){let b=document.getElementById('recBtn'); if(!recorder){initAudio(); let dest=ctx.createMediaStreamDestination(); masterGain.connect(dest); recorder=new MediaRecorder(dest.stream); chunks=[]; recorder.ondataavailable=e=>chunks.push(e.data); recorder.onstop=()=>{let blob=new Blob(chunks,{type:'audio/webm'}); let url=URL.createObjectURL(blob); let a=document.getElementById('downloadLink'); a.href=url; a.download='chuku-mix.webm'; a.style.display='block'; document.getElementById('recStatus').textContent='✅ Umerekodi! Bonyeza Download chini.';}; recorder.start(); b.textContent='⏹️ SIMAMISHA RECORD'; b.style.background='#ffff00'; b.style.color='#000'; document.getElementById('recStatus').textContent='🔴 Inarekodi sasa...';} else {recorder.stop(); recorder=null; b.textContent='🔴 ANZA KURECORD'; b.style.background='#ff0000'; b.style.color='#fff';}}
 </script>
 </body>
-</html>
+                </html>

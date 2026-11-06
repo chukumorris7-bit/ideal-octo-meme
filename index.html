@@ -3,192 +3,227 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CHUKU DJ MIXER PRO V2</title>
+<title>MIXVIBES PRO V4 - SWITCH</title>
 <style>
-*{box-sizing:border-box} body{margin:0;background:#0a0a1a;color:#fff;font-family:Arial,sans-serif;padding:10px}
-h1{text-align:center;color:#ff7a00;font-size:22px;margin:5px} .sub{text-align:center;color:#aaa;font-size:12px}
-.decks{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.deck{background:#1a1a3a;border:2px solid #333;border-radius:15px;padding:12px}
-.deck.a{border-color:#00ccff} .deck.b{border-color:#ff00ff}
-.deck h2{text-align:center;margin:0 0 10px} .a h2{color:#00ccff} .b h2{color:#ff00ff}
-input[type=file]{width:100%;margin-bottom:8px}
-.song{font-size:13px;background:#000;padding:8px;border-radius:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:8px}
-audio{width:100%} .big{width:100%;padding:12px;border:none;border-radius:10px;font-weight:bold;font-size:16px;margin:5px 0;cursor:pointer}
-.play{background:#00ff88} .cue{background:#ffff00} .loop-on{background:#ff00ff!important;color:#fff}
-.row{display:flex;gap:5px} .row button{flex:1;padding:10px;border:none;border-radius:8px;font-weight:bold}
-label{font-size:11px;display:block;margin-top:10px;color:#ccc}
-input[type=range]{width:100%;accent-color:#ff7a00}
-.knobs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;text-align:center}
-.knobs input{width:100%}
-.mixer{background:#2d0a4e;border-radius:15px;padding:15px;margin:10px 0;text-align:center}
-.mixer h3{color:#ff7a00;margin:0 0 10px}
-.fx{background:#1a1a3a;border-radius:15px;padding:15px;margin:10px 0}
-.fx h3{color:#ff7a00;text-align:center}
-.fxgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.fxgrid button{padding:14px;border:none;border-radius:10px;font-weight:bold;cursor:pointer}
-.playlist{background:#111;border-radius:15px;padding:12px;margin:10px 0}
-.playlist div{padding:10px;background:#222;margin:5px 0;border-radius:8px;cursor:pointer;font-size:13px}
-.micrec{background:#220a0a;border-radius:15px;padding:15px;margin:10px 0;text-align:center}
-button:active{transform:scale(.96)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#1e2126;color:#fff;font-family:Arial,sans-serif}
+.top{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:#2a2e35}
+.top h1{font-size:22px;color:#8a8f98}
+.circle{width:44px;height:44px;border:2px solid #fff;border-radius:50%}
+.layout-bar{display:flex;gap:6px;padding:8px;background:#111;justify-content:center}
+.layout-bar button{padding:8px 14px;border:none;border-radius:20px;font-weight:bold;font-size:12px;background:#333;color:#fff}
+.layout-bar button.active{background:#ff7a00;color:#fff}
+.main{display:flex;gap:8px;padding:10px;background:#2a2e35}
+.deck{flex:1}
+.platter{aspect-ratio:1;background:#ff7a00;border-radius:50%;display:flex;align-items:center;justify-content:center;border:8px solid #2a2e35;position:relative}
+.platter.spin{animation:spin 2s linear infinite}.platter.paused{animation-play-state:paused}
+@keyframes spin{to{transform:rotate(360deg)}}
+.center{width:32%;aspect-ratio:1;background:#4a2c15;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px}
+.deck-area{display:flex;gap:8px;align-items:center}
+.tempo-wrap{width:28px;display:flex;flex-direction:column;align-items:center}
+.tempo-wrap input{writing-mode:vertical-lr;direction:rtl;width:28px;height:210px;accent-color:#ff7a00}
+.tempo-val{background:#fff;color:#000;font-size:11px;padding:2px 6px;border-radius:4px;margin:4px 0}
+.mid{width:85px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.mid button{width:42px;height:42px;border-radius:50%;border:1px solid #555;background:#333;color:#fff;font-size:16px}
+.mid button.active{background:#ff7a00}
+.mid input{writing-mode:vertical-lr;direction:rtl;width:26px;height:160px;accent-color:#000}
+.bottom{display:flex;align-items:center;gap:6px;padding:10px;background:#3a3e46}
+.bottom button{flex:1;padding:13px;border:none;border-radius:6px;background:#5a5e68;color:#fff;font-weight:bold}
+.cross-bottom{flex:1.4;display:flex;align-items:center;gap:4px}.cross-bottom input{flex:1;accent-color:#ff7a00}
+/* SWITCH PANEL */
+.switch-bar{display:flex;gap:0;background:#111;padding:0}
+.switch-bar button{flex:1;padding:14px;border:none;font-weight:bold;font-size:14px;background:#222;color:#aaa;border-bottom:3px solid transparent}
+.switch-bar button.active{background:#1e2126;color:#ff7a00;border-bottom:3px solid #ff7a00}
+.panel{display:none;padding:12px;background:#1e2126;min-height:180px}
+.panel.active{display:block}
+.fxgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.fxgrid button{padding:16px;border:none;border-radius:10px;font-weight:bold;color:#fff;font-size:13px}
+.cuegrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.cuegrid button{padding:16px;border:none;border-radius:10px;font-weight:bold;background:#333;color:#fff}
+.cuegrid button.set{background:#ff7a00}
+.samplegrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.samplegrid button{padding:16px;border:none;border-radius:10px;font-weight:bold;color:#fff}
+.eqgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center;font-size:12px}
+.eqgrid input{width:100%;accent-color:#ff7a00}
+.load{padding:10px;background:#1e2126}
+.song{font-size:12px;background:#000;padding:8px;border-radius:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:5px}
+.master{padding:10px;background:#2a2e35;text-align:center}
+.master input{width:80%;accent-color:#ff7a00}
 </style>
 </head>
 <body>
-<h1>🎧 CHUKU DJ MIXER PRO V2</h1>
-<div class="sub">Mixer Kamili • 2 Decks • Effects • Record • Mic</div>
+<div class="top"><div class="circle"></div><h1>MIXVIBES</h1><div style="display:flex;gap:6px;align-items:center"><span style="width:14px;height:14px;background:#e00;border-radius:50%;display:inline-block"></span><span id="recText">REC</span></div><h1>MIXVIBES</h1><div class="circle"></div></div>
 
-<div class="decks">
-<!-- DECK A -->
-<div class="deck a">
-<h2>DECK A</h2>
-<input type="file" accept="audio/*" onchange="loadSong(event,'A')">
-<div class="song" id="songA">Hakuna Wimbo</div>
-<audio id="audioA" controls preload="auto"></audio>
-<button class="big play" onclick="togglePlay('A')">▶️ PLAY / PAUSE A</button>
-<div class="row">
-<button style="background:#ffff00" onclick="cue('A')">⏪ CUE</button>
-<button style="background:#ff00ff;color:#fff" id="loopA" onclick="toggleLoop('A')">🔁 LOOP</button>
-<button style="background:#00ccff" onclick="seek('A',-10)">-10s</button>
-<button style="background:#00ccff" onclick="seek('A',10)">+10s</button>
-</div>
-<label>🔊 VOLUME A</label><input type="range" id="volA" min="0" max="1" step="0.01" value="0.8" oninput="setVol('A',this.value)">
-<label>🎚️ GAIN A</label><input type="range" id="gainA" min="0" max="2" step="0.01" value="1" oninput="setGain('A',this.value)">
-<div class="knobs">
-<div><label>BASS</label><input type="range" id="bassA" min="-20" max="20" value="0" oninput="setEQ('A','bass',this.value)"></div>
-<div><label>MID</label><input type="range" id="midA" min="-20" max="20" value="0" oninput="setEQ('A','mid',this.value)"></div>
-<div><label>TREBLE</label><input type="range" id="treA" min="-20" max="20" value="0" oninput="setEQ('A','treble',this.value)"></div>
-</div>
-<label>🎛️ FILTER A (Kushoto= Bass, Kulia= Treble)</label><input type="range" id="filterA" min="0" max="100" value="50" oninput="setFilter('A',this.value)">
-<label>⏩ TEMPO / SPEED A - <span id="tempoLabelA">1.00x</span></label><input type="range" id="tempoA" min="0.5" max="1.5" step="0.01" value="1" oninput="setTempo('A',this.value)">
-<label>🎵 PITCH A</label><input type="range" id="pitchA" min="0.5" max="1.5" step="0.01" value="1" oninput="setTempo('A',this.value)">
+<div class="layout-bar">
+<button class="active" onclick="setLayout('mixvibes',this)">🟠 MIXVIBES</button>
+<button onclick="setLayout('classic',this)">🎛️ CLASSIC</button>
+<button onclick="setLayout('neon',this)">🌈 NEON</button>
+<button onclick="setLayout('dark',this)">⚫ DARK</button>
 </div>
 
-<!-- DECK B -->
-<div class="deck b">
-<h2>DECK B</h2>
-<input type="file" accept="audio/*" onchange="loadSong(event,'B')">
-<div class="song" id="songB">Hakuna Wimbo</div>
-<audio id="audioB" controls preload="auto"></audio>
-<button class="big play" onclick="togglePlay('B')">▶️ PLAY / PAUSE B</button>
-<div class="row">
-<button style="background:#ffff00" onclick="cue('B')">⏪ CUE</button>
-<button style="background:#ff00ff;color:#fff" id="loopB" onclick="toggleLoop('B')">🔁 LOOP</button>
-<button style="background:#00ccff" onclick="seek('B',-10)">-10s</button>
-<button style="background:#00ccff" onclick="seek('B',10)">+10s</button>
+<div class="main">
+<div class="deck"><div class="deck-area">
+<div class="tempo-wrap"><input type="range" id="tempoA" min="0.5" max="1.5" step="0.01" value="1" oninput="setTempo('A',this.value)"><div class="tempo-val" id="tempoValA">0.0%</div><div style="font-size:10px;color:#aaa">TEMPO</div></div>
+<div class="platter" id="platterA" style="flex:1"><div class="center">🎵</div></div>
+</div></div>
+<div class="mid">
+<button onclick="showPanel('fx',this)" id="btn-fx" class="active">FX</button>
+<button onclick="showPanel('cue',this)" id="btn-cue">CUE</button>
+<button onclick="showPanel('sample',this)" id="btn-sample">SMP</button>
+<input type="range" id="crossV" min="0" max="100" value="50" oninput="setCross(this.value)">
+<button onclick="showPanel('eq',this)" id="btn-eq">🎚️</button>
 </div>
-<label>🔊 VOLUME B</label><input type="range" id="volB" min="0" max="1" step="0.01" value="0.8" oninput="setVol('B',this.value)">
-<label>🎚️ GAIN B</label><input type="range" id="gainB" min="0" max="2" step="0.01" value="1" oninput="setGain('B',this.value)">
-<div class="knobs">
-<div><label>BASS</label><input type="range" id="bassB" min="-20" max="20" value="0" oninput="setEQ('B','bass',this.value)"></div>
-<div><label>MID</label><input type="range" id="midB" min="-20" max="20" value="0" oninput="setEQ('B','mid',this.value)"></div>
-<div><label>TREBLE</label><input type="range" id="treB" min="-20" max="20" value="0" oninput="setEQ('B','treble',this.value)"></div>
-</div>
-<label>🎛️ FILTER B</label><input type="range" id="filterB" min="0" max="100" value="50" oninput="setFilter('B',this.value)">
-<label>⏩ TEMPO / SPEED B - <span id="tempoLabelB">1.00x</span></label><input type="range" id="tempoB" min="0.5" max="1.5" step="0.01" value="1" oninput="setTempo('B',this.value)">
-<label>🎵 PITCH B</label><input type="range" id="pitchB" min="0.5" max="1.5" step="0.01" value="1" oninput="setTempo('B',this.value)">
-</div>
+<div class="deck"><div class="deck-area">
+<div class="platter" id="platterB" style="flex:1"><div class="center">🎵</div></div>
+<div class="tempo-wrap"><input type="range" id="tempoB" min="0.5" max="1.5" step="0.01" value="1" oninput="setTempo('B',this.value)"><div class="tempo-val" id="tempoValB">0.0%</div><div style="font-size:10px;color:#aaa">TEMPO</div></div>
+</div></div>
 </div>
 
-<!-- MIXER KATI -->
-<div class="mixer">
-<h3>🎛️ MIXER YA KATI</h3>
-<label>⬅️ DECK A &nbsp;&nbsp; CROSSFADER &nbsp;&nbsp; DECK B ➡️</label>
-<input type="range" id="cross" min="0" max="100" value="50" oninput="setCross(this.value)">
-<div id="crossLabel" style="font-size:12px">⚖️ Kati Kati - Zote Zinasikika</div>
-<label>🔊 MASTER VOLUME - <span id="masterLabel">80%</span></label>
-<input type="range" id="masterVol" min="0" max="1" step="0.01" value="0.8" oninput="setMaster(this.value)">
-<div class="row" style="margin-top:10px">
-<button style="background:#00ccff;padding:12px" onclick="crossTo('A')">⬅️ A PEKEE</button>
-<button style="background:#fff;padding:12px" onclick="crossTo('C')">⚖️ KATI</button>
-<button style="background:#ff00ff;color:#fff;padding:12px" onclick="crossTo('B')">B PEKEE ➡️</button>
-</div>
-<button style="background:#ff0000;color:#fff;padding:12px;width:100%;margin-top:8px;border:none;border-radius:10px;font-weight:bold" onclick="stopAll()">⏹️ STOP ZOTE</button>
+<div class="bottom">
+<button onclick="cue('A')">CUE</button><button onclick="togglePlay('A')">▶️</button><button onclick="sync('A')">SYNC</button>
+<div class="cross-bottom"><span>◀</span><input type="range" id="crossH" min="0" max="100" value="50" oninput="setCross(this.value)"><span>▶</span></div>
+<button onclick="sync('B')">SYNC</button><button onclick="cue('B')">CUE</button><button onclick="togglePlay('B')">▶️</button>
 </div>
 
-<!-- EFFECTS -->
-<div class="fx">
-<h3>🎹 DJ EFFECTS - Hakuna Mwangwi Sasa!</h3>
+<!-- SWITCH TABS -->
+<div class="switch-bar">
+<button class="active" onclick="showPanel('fx',this)" id="tab-fx">🎹 FX</button>
+<button onclick="showPanel('cue',this)" id="tab-cue">⏪ CUE</button>
+<button onclick="showPanel('sample',this)" id="tab-sample">🥁 SAMPLE</button>
+<button onclick="showPanel('eq',this)" id="tab-eq">🎚️ EQ / MIXER</button>
+</div>
+
+<div id="panel-fx" class="panel active">
 <div class="fxgrid">
-<button style="background:#ff0000;color:#fff" onclick="airHorn()">📯 AIR HORN</button>
-<button style="background:#ff7a00;color:#fff" onclick="siren()">🚨 SIREN</button>
-<button style="background:#00ccff;color:#fff" onclick="boom()">💥 BOOM</button>
-<button style="background:#00ff88" onclick="rewindFx()">⏪ REWIND</button>
-<button style="background:#ff00ff;color:#fff" onclick="laser()">🔫 LASER</button>
-<button style="background:#ffff00" onclick="clap()">👏 CLAP</button>
+<button style="background:#ff0000" onclick="fx('horn')">📯 AIR HORN</button>
+<button style="background:#ff7a00" onclick="fx('siren')">🚨 SIREN</button>
+<button style="background:#00ccff" onclick="fx('boom')">💥 BOOM</button>
+<button style="background:#00aa66" onclick="fx('rewind')">⏪ REWIND</button>
+<button style="background:#aa00ff" onclick="fx('laser')">🔫 LASER</button>
+<button style="background:#ccaa00" onclick="fx('clap')">👏 CLAP</button>
+<button style="background:#ff00aa" onclick="fx('echo')">🌊 ECHO</button>
+<button style="background:#333" onclick="fx('filter')">🎛️ FILTER</button>
+<button style="background:#0066ff" onclick="fx('riser')">📈 RISER</button>
 </div>
-<label>🔊 FX VOLUME</label><input type="range" id="fxVol" min="0" max="1" step="0.01" value="0.8">
-<label>🌊 ECHO / MWANGWI - Weka 0 kuizima kabisa</label><input type="range" id="echoVol" min="0" max="0.8" step="0.01" value="0">
-<div id="echoLabel" style="font-size:12px;text-align:center">Echo: OFF - Hakuna Mwangwi</div>
-</div>
-
-<!-- MIC + RECORD -->
-<div class="micrec">
-<h3 style="color:#ff7a00;margin:0">🎤 MIC & 🔴 RECORD</h3>
-<div class="row" style="margin-top:10px">
-<button style="background:#00ff88;padding:12px" onclick="toggleMic()" id="micBtn">🎤 WASHA MIC</button>
-<button style="background:#ff0000;color:#fff;padding:12px" onclick="toggleRec()" id="recBtn">🔴 ANZA KURECORD</button>
-</div>
-<label>MIC VOLUME</label><input type="range" id="micVol" min="0" max="1" step="0.01" value="0.8" oninput="setMicVol(this.value)">
-<div id="recStatus" style="font-size:12px;margin-top:5px">Hujarekodi bado</div>
-<a id="downloadLink" style="display:none;color:#00ff88;font-weight:bold">⬇️ DOWNLOAD MIX YAKO</a>
+<div style="margin-top:10px;text-align:center">FX VOLUME <input type="range" id="fxVol" min="0" max="1" step="0.01" value="0.8" style="width:70%"></div>
 </div>
 
-<!-- PLAYLIST -->
-<div class="playlist">
-<h3 style="color:#ff7a00;margin:0">📁 PLAYLIST YAKO</h3>
-<div style="font-size:12px;color:#aaa">Bonyeza wimbo uiweke Deck A, bonyeza kwa muda mrefu uiweke Deck B</div>
-<div id="playlist"></div>
+<div id="panel-cue" class="panel">
+<div style="font-size:12px;color:#aaa;margin-bottom:8px">Bonyeza CUE 1-4 kuweka alama, bonyeza tena kuruka hapo. Deck A = juu, Deck B = chini</div>
+<div style="margin-bottom:5px">DECK A</div>
+<div class="cuegrid">
+<button onclick="setCue('A',0,this)">CUE 1 A</button><button onclick="setCue('A',1,this)">CUE 2 A</button><button onclick="setCue('A',2,this)">CUE 3 A</button><button onclick="setCue('A',3,this)">CUE 4 A</button>
+</div>
+<div style="margin:10px 0 5px">DECK B</div>
+<div class="cuegrid">
+<button onclick="setCue('B',0,this)">CUE 1 B</button><button onclick="setCue('B',1,this)">CUE 2 B</button><button onclick="setCue('B',2,this)">CUE 3 B</button><button onclick="setCue('B',3,this)">CUE 4 B</button>
+</div>
+<div style="margin-top:10px;display:flex;gap:8px"><button style="flex:1;padding:12px;background:#ffff00;font-weight:bold;border:none;border-radius:8px" onclick="cue('A')">⏪ CUE A - Rudia Mwanzo</button><button style="flex:1;padding:12px;background:#ffff00;font-weight:bold;border:none;border-radius:8px" onclick="cue('B')">⏪ CUE B</button></div>
+</div>
+
+<div id="panel-sample" class="panel">
+<div class="samplegrid">
+<button style="background:#ff3333" onclick="fx('kick')">🥁 KICK</button>
+<button style="background:#ff9933" onclick="fx('snare')">🥁 SNARE</button>
+<button style="background:#ffcc00;color:#000" onclick="fx('hihat')">🎩 HI-HAT</button>
+<button style="background:#33ccff" onclick="fx('clap')">👏 CLAP</button>
+<button style="background:#aa33ff" onclick="fx('shaker')">🪇 SHAKER</button>
+<button style="background:#00cc66" onclick="fx('vocal')">🎤 VOCAL YEAH!</button>
+<button style="background:#ff0066" onclick="fx('horn')">📯 HORN</button>
+<button style="background:#3333ff" onclick="fx('siren')">🚨 SIREN</button>
+<button style="background:#00aaaa" onclick="fx('boom')">💥 BOOM 808</button>
+</div>
+<div style="margin-top:10px;text-align:center;font-size:12px;color:#aaa">SAMPLE - Bonyeza kupiga sauti ya drum kama DJ halisi</div>
+</div>
+
+<div id="panel-eq" class="panel">
+<div class="eqgrid">
+<div>BASS A<br><input type="range" min="-15" max="15" value="0" oninput="setEQ('A','bass',this.value)"></div>
+<div>MID A<br><input type="range" min="-15" max="15" value="0" oninput="setEQ('A','mid',this.value)"></div>
+<div>TREBLE A<br><input type="range" min="-15" max="15" value="0" oninput="setEQ('A','treble',this.value)"></div>
+<div>BASS B<br><input type="range" min="-15" max="15" value="0" oninput="setEQ('B','bass',this.value)"></div>
+<div>MID B<br><input type="range" min="-15" max="15" value="0" oninput="setEQ('B','mid',this.value)"></div>
+<div>TREBLE B<br><input type="range" min="-15" max="15" value="0" oninput="setEQ('B','treble',this.value)"></div>
+</div>
+<div style="margin-top:12px;text-align:center">FILTER A <input type="range" min="0" max="100" value="50" oninput="setFilter('A',this.value)" style="width:70%"></div>
+<div style="margin-top:8px;text-align:center">FILTER B <input type="range" min="0" max="100" value="50" oninput="setFilter('B',this.value)" style="width:70%"></div>
+</div>
+
+<div class="load">
+<input type="file" id="fileA" accept="audio/*" onchange="loadSong(event,'A')">
+<input type="file" id="fileB" accept="audio/*" onchange="loadSong(event,'B')">
+<div class="song" id="songA">🎵 Deck A - Chagua wimbo</div>
+<div class="song" id="songB">🎵 Deck B - Chagua wimbo</div>
+<audio id="audioA" style="display:none"></audio><audio id="audioB" style="display:none"></audio>
+</div>
+
+<div class="master">
+🔊 MASTER <input type="range" min="0" max="1" step="0.01" value="0.9" oninput="setMaster(this.value)">
+<div style="margin-top:8px;display:flex;gap:8px">
+<button style="flex:1;padding:11px;border:none;border-radius:8px;background:#00ff88;font-weight:bold" onclick="toggleMic()" id="micBtn">🎤 MIC</button>
+<button style="flex:1;padding:11px;border:none;border-radius:8px;background:#ff0000;color:#fff;font-weight:bold" onclick="toggleRec()" id="recBtn">🔴 REC</button>
+<button style="flex:1;padding:11px;border:none;border-radius:8px;background:#333;color:#fff;font-weight:bold" onclick="stopAll()">⏹️ STOP</button>
+</div>
+<div id="recStatus" style="font-size:12px;margin-top:5px;color:#aaa"></div>
+<a id="dl" style="display:none;color:#00ff88;font-weight:bold">⬇️ DOWNLOAD MIX</a>
 </div>
 
 <script>
-let ctx=null, masterGain=null, micStream=null, micGain=null, recorder=null, chunks=[];
-let decks={};
-function initAudio(){
-if(ctx) return;
-ctx=new (window.AudioContext||window.webkitAudioContext)();
-masterGain=ctx.createGain(); masterGain.gain.value=0.8;
-masterGain.connect(ctx.destination);
-['A','B'].forEach(k=>{
-let el=document.getElementById('audio'+k);
-let src=ctx.createMediaElementSource(el);
-let gain=ctx.createGain(); gain.gain.value=0.8;
-let bass=ctx.createBiquadFilter(); bass.type='lowshelf'; bass.frequency.value=200;
-let mid=ctx.createBiquadFilter(); mid.type='peaking'; mid.frequency.value=1000; mid.Q.value=1;
-let tre=ctx.createBiquadFilter(); tre.type='highshelf'; tre.frequency.value=3000;
-let filt=ctx.createBiquadFilter(); filt.type='lowpass'; filt.frequency.value=20000;
-src.connect(bass); bass.connect(mid); mid.connect(tre); tre.connect(filt); filt.connect(gain); gain.connect(masterGain);
-decks[k]={el,gain,bass,mid,tre,filt,vol:0.8};
-});
+let ctx=null,master=null,decks={},micS=null,micG=null,rec=null,chunks=[],recDest=null,cues={A:[null,null,null,null],B:[null,null,null,null]};
+function init(){if(ctx) return; ctx=new (window.AudioContext||window.webkitAudioContext)(); master=ctx.createGain(); master.gain.value=0.9; master.connect(ctx.destination);
+['A','B'].forEach(k=>{let el=document.getElementById('audio'+k); let src=ctx.createMediaElementSource(el); let g=ctx.createGain(); g.gain.value=0.5; let b=ctx.createBiquadFilter(); b.type='lowshelf'; b.frequency.value=200; let m=ctx.createBiquadFilter(); m.type='peaking'; m.frequency.value=1000; let t=ctx.createBiquadFilter(); t.type='highshelf'; t.frequency.value=3000; let f=ctx.createBiquadFilter(); f.type='lowpass'; f.frequency.value=20000; src.connect(b); b.connect(m); m.connect(t); t.connect(f); f.connect(g); g.connect(master); decks[k]={el,g,b,m,t,f,vol:0.5};});}
+function showPanel(name,btn){
+document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+document.getElementById('panel-'+name).classList.add('active');
+document.querySelectorAll('.switch-bar button').forEach(b=>b.classList.remove('active'));
+let tab=document.getElementById('tab-'+name); if(tab) tab.classList.add('active');
+document.querySelectorAll('.mid button').forEach(b=>b.classList.remove('active'));
+if(name==='fx') document.getElementById('btn-fx').classList.add('active');
+if(name==='cue') document.getElementById('btn-cue').classList.add('active');
+if(name==='sample') document.getElementById('btn-sample').classList.add('active');
+if(name==='eq') document.getElementById('btn-eq').classList.add('active');
 }
-function getEl(k){return document.getElementById('audio'+k)}
-function loadSong(e,k){initAudio(); let f=e.target.files[0]; if(!f) return; let url=URL.createObjectURL(f); getEl(k).src=url; getEl(k).play(); document.getElementById('song'+k).textContent=f.name; addToPlaylist(f.name,url); }
-function addToPlaylist(name,url){let d=document.createElement('div'); d.textContent='🎵 '+name; d.onclick=()=>{initAudio(); getEl('A').src=url; document.getElementById('songA').textContent=name; getEl('A').play();}; d.oncontextmenu=(ev)=>{ev.preventDefault(); getEl('B').src=url; document.getElementById('songB').textContent=name; getEl('B').play();}; document.getElementById('playlist').appendChild(d);}
-function togglePlay(k){initAudio(); if(ctx.state==='suspended') ctx.resume(); let a=getEl(k); if(a.paused) a.play(); else a.pause();}
-function cue(k){let a=getEl(k); a.currentTime=0; a.pause();}
-function toggleLoop(k){let a=getEl(k); a.loop=!a.loop; document.getElementById('loop'+k).classList.toggle('loop-on',a.loop);}
-function seek(k,s){getEl(k).currentTime+=s;}
-function setVol(k,v){initAudio(); decks[k].vol=parseFloat(v); applyCross();}
-function setGain(k,v){if(decks[k]) decks[k].gain.gain.value=parseFloat(v);}
-function setEQ(k,type,v){if(!decks[k]) return; let val=parseFloat(v); if(type==='bass') decks[k].bass.gain.value=val; if(type==='mid') decks[k].mid.gain.value=val; if(type==='treble') decks[k].tre.gain.value=val;}
-function setFilter(k,v){if(!decks[k]) return; let val=parseFloat(v); if(val<=50){decks[k].filt.type='lowpass'; decks[k].filt.frequency.value=500+ (val/50)*19500;} else {decks[k].filt.type='highpass'; decks[k].filt.frequency.value=((val-50)/50)*2000;}}
-function setTempo(k,v){getEl(k).playbackRate=parseFloat(v); document.getElementById('tempoLabel'+k).textContent=parseFloat(v).toFixed(2)+'x';}
-function setCross(v){applyCross(); let c=parseInt(v); let l=document.getElementById('crossLabel'); if(c<40) l.textContent='⬅️ Deck A Inasikika Zaidi'; else if(c>60) l.textContent='Deck B Inasikika Zaidi ➡️'; else l.textContent='⚖️ Kati Kati - Zote Zinasikika';}
-function applyCross(){if(!decks.A) return; let c=parseInt(document.getElementById('cross').value)/100; decks.A.gain.gain.value=decks.A.vol*(1-c); decks.B.gain.gain.value=decks.B.vol*c;}
-function crossTo(pos){let s=document.getElementById('cross'); if(pos==='A') s.value=0; if(pos==='C') s.value=50; if(pos==='B') s.value=100; setCross(s.value);}
-function setMaster(v){if(masterGain) masterGain.gain.value=parseFloat(v); document.getElementById('masterLabel').textContent=Math.round(v*100)+'%';}
-function stopAll(){getEl('A').pause(); getEl('B').pause();}
-function getFxVol(){let e=document.getElementById('fxVol'); return e?parseFloat(e.value):0.8;}
-function tone(f,d,type='sine',v=0.5,slide=0){if(!ctx) initAudio(); let o=ctx.createOscillator(), g=ctx.createGain(); o.type=type; o.frequency.setValueAtTime(f,ctx.currentTime); if(slide) o.frequency.exponentialRampToValueAtTime(slide,ctx.currentTime+d); g.gain.setValueAtTime(v*getFxVol(),ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+d); o.connect(g); g.connect(masterGain); o.start(); o.stop(ctx.currentTime+d);}
-function noise(d,v=0.5){if(!ctx) initAudio(); let len=ctx.sampleRate*d; let buf=ctx.createBuffer(1,len,ctx.sampleRate); let ch=buf.getChannelData(0); for(let i=0;i<len;i++) ch[i]=Math.random()*2-1; let s=ctx.createBufferSource(); s.buffer=buf; let g=ctx.createGain(); g.gain.setValueAtTime(v*getFxVol(),ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+d); s.connect(g); g.connect(masterGain); s.start();}
-function airHorn(){tone(440,0.8,'sawtooth',0.4); tone(554,0.8,'sawtooth',0.4); tone(659,0.8,'sawtooth',0.4);}
-function siren(){tone(600,1,'sine',0.5,1200); setTimeout(()=>tone(1200,1,'sine',0.5,600),200);}
-function boom(){tone(80,0.8,'sine',0.8,30); noise(0.3,0.4);}
-function rewindFx(){tone(1200,0.6,'sawtooth',0.4,100);}
-function laser(){tone(1500,0.3,'square',0.3,100);}
-function clap(){noise(0.15,0.6); setTimeout(()=>noise(0.15,0.6),150);}
-document.getElementById('echoVol').addEventListener('input',function(){let v=parseFloat(this.value); document.getElementById('echoLabel').textContent=v==0?'Echo: OFF - Hakuna Mwangwi':'Echo: '+Math.round(v*100)+'%';});
-async function toggleMic(){initAudio(); let b=document.getElementById('micBtn'); if(!micStream){try{micStream=await navigator.mediaDevices.getUserMedia({audio:true}); let src=ctx.createMediaStreamSource(micStream); micGain=ctx.createGain(); micGain.gain.value=parseFloat(document.getElementById('micVol').value); src.connect(micGain); micGain.connect(masterGain); b.textContent='🎤 ZIMA MIC'; b.style.background='#ff0000'; b.style.color='#fff';}catch(e){alert('Ruhusu Mic kwanza!')}} else {micStream.getTracks().forEach(t=>t.stop()); micStream=null; b.textContent='🎤 WASHA MIC'; b.style.background='#00ff88'; b.style.color='#000';}}
-function setMicVol(v){if(micGain) micGain.gain.value=parseFloat(v);}
-async function toggleRec(){let b=document.getElementById('recBtn'); if(!recorder){initAudio(); let dest=ctx.createMediaStreamDestination(); masterGain.connect(dest); recorder=new MediaRecorder(dest.stream); chunks=[]; recorder.ondataavailable=e=>chunks.push(e.data); recorder.onstop=()=>{let blob=new Blob(chunks,{type:'audio/webm'}); let url=URL.createObjectURL(blob); let a=document.getElementById('downloadLink'); a.href=url; a.download='chuku-mix.webm'; a.style.display='block'; document.getElementById('recStatus').textContent='✅ Umerekodi! Bonyeza Download chini.';}; recorder.start(); b.textContent='⏹️ SIMAMISHA RECORD'; b.style.background='#ffff00'; b.style.color='#000'; document.getElementById('recStatus').textContent='🔴 Inarekodi sasa...';} else {recorder.stop(); recorder=null; b.textContent='🔴 ANZA KURECORD'; b.style.background='#ff0000'; b.style.color='#fff';}}
+function setLayout(mode,btn){
+document.querySelectorAll('.layout-bar button').forEach(b=>b.classList.remove('active')); btn.classList.add('active');
+let a=document.getElementById('platterA'), b=document.getElementById('platterB');
+if(mode==='mixvibes'){a.style.background='#ff7a00'; b.style.background='#ff7a00'; document.body.style.background='#1e2126';}
+if(mode==='classic'){a.style.background='#222'; b.style.background='#222'; document.body.style.background='#000';}
+if(mode==='neon'){a.style.background='linear-gradient(45deg,#ff00ff,#00ffff)'; b.style.background='linear-gradient(45deg,#00ff88,#ffff00)'; document.body.style.background='#0a001a';}
+if(mode==='dark'){a.style.background='#333'; b.style.background='#333'; document.body.style.background='#000';}
+}
+function loadSong(e,k){init(); let f=e.target.files[0]; if(!f) return; let u=URL.createObjectURL(f); decks[k].el.src=u; decks[k].el.play(); document.getElementById('song'+k).textContent='🎵 '+f.name; document.getElementById('platter'+k).classList.add('spin'); document.getElementById('platter'+k).classList.remove('paused');}
+function togglePlay(k){init(); if(ctx.state==='suspended') ctx.resume(); let a=decks[k].el; let p=document.getElementById('platter'+k); if(a.paused){a.play(); p.classList.add('spin'); p.classList.remove('paused');} else {a.pause(); p.classList.add('paused');}}
+function cue(k){let a=decks[k].el; a.currentTime=0; a.pause(); document.getElementById('platter'+k).classList.add('paused');}
+function setCue(k,i,btn){let a=decks[k].el; if(cues[k][i]===null){cues[k][i]=a.currentTime; btn.classList.add('set'); btn.textContent='CUE '+(i+1)+' ✓ '+cues[k][i].toFixed(1)+'s';} else {a.currentTime=cues[k][i]; a.play(); document.getElementById('platter'+k).classList.add('spin'); document.getElementById('platter'+k).classList.remove('paused');}}
+function sync(k){let o=k==='A'?'B':'A'; if(decks[o]){decks[k].el.playbackRate=decks[o].el.playbackRate; document.getElementById('tempo'+k).value=decks[o].el.playbackRate; setTempo(k,decks[o].el.playbackRate);}}
+function setTempo(k,v){init(); let val=parseFloat(v); decks[k].el.playbackRate=val; document.getElementById('tempoVal'+k).textContent=((val-1)*100).toFixed(1)+'%';}
+function setEQ(k,t,v){if(!decks[k]) return; let val=parseFloat(v); if(t==='bass') decks[k].b.gain.value=val; if(t==='mid') decks[k].m.gain.value=val; if(t==='treble') decks[k].t.gain.value=val;}
+function setFilter(k,v){if(!decks[k]) return; let val=parseFloat(v); if(val<=50){decks[k].f.type='lowpass'; decks[k].f.frequency.value=500+(val/50)*19500;} else {decks[k].f.type='highpass'; decks[k].f.frequency.value=((val-50)/50)*2000;}}
+function setCross(v){init(); let c=parseInt(v)/100; document.getElementById('crossH').value=v; document.getElementById('crossV').value=v; if(!decks.A) return; decks.A.g.gain.value=decks.A.vol*(1-c)*2; decks.B.g.gain.value=decks.B.vol*c*2;}
+function setMaster(v){if(master) master.gain.value=parseFloat(v);}
+function stopAll(){if(decks.A) decks.A.el.pause(); if(decks.B) decks.B.el.pause(); document.getElementById('platterA').classList.add('paused'); document.getElementById('platterB').classList.add('paused');}
+function getFxVol(){return parseFloat(document.getElementById('fxVol')?.value||0.8);}
+function fx(type){if(!ctx) init(); let v=getFxVol();
+function tone(f,d,ty,slide,vol=v){let o=ctx.createOscillator(),g=ctx.createGain(); o.type=ty; o.frequency.setValueAtTime(f,ctx.currentTime); if(slide) o.frequency.exponentialRampToValueAtTime(slide,ctx.currentTime+d); g.gain.setValueAtTime(vol,ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+d); o.connect(g); g.connect(master); o.start(); o.stop(ctx.currentTime+d);}
+function nz(d,vol=v){let len=ctx.sampleRate*d; let buf=ctx.createBuffer(1,len,ctx.sampleRate); let ch=buf.getChannelData(0); for(let i=0;i<len;i++) ch[i]=Math.random()*2-1; let s=ctx.createBufferSource(); s.buffer=buf; let g=ctx.createGain(); g.gain.setValueAtTime(vol,ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+d); s.connect(g); g.connect(master); s.start();}
+if(type==='horn'){tone(440,.7,'sawtooth'); tone(554,.7,'sawtooth'); tone(659,.7,'sawtooth');}
+if(type==='siren'){tone(600,1,'sine',1200);}
+if(type==='boom'){tone(80,.7,'sine',30); nz(.3);}
+if(type==='rewind'){tone(1200,.5,'sawtooth',100);}
+if(type==='laser'){tone(1500,.3,'square',100);}
+if(type==='clap'){nz(.15); setTimeout(()=>nz(.15),150);}
+if(type==='kick'){tone(120,.3,'sine',40);}
+if(type==='snare'){nz(.2); tone(180,.15,'triangle');}
+if(type==='hihat'){nz(.05,0.3);}
+if(type==='shaker'){nz(.1,0.3);}
+if(type==='vocal'){tone(500,.2,'square'); setTimeout(()=>tone(700,.3,'square'),150);}
+if(type==='echo'){tone(600,.6,'sine'); setTimeout(()=>tone(600,.4,'sine'),200); setTimeout(()=>tone(600,.2,'sine'),400);}
+if(type==='filter'){tone(200,1,'sawtooth',2000);}
+if(type==='riser'){tone(100,1,'sawtooth',1500);}
+}
+async function toggleMic(){init(); let b=document.getElementById('micBtn'); if(!micS){try{micS=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}}); let s=ctx.createMediaStreamSource(micS); micG=ctx.createGain(); micG.gain.value=0.7; s.connect(micG); micG.connect(master); b.textContent='🎤 ZIMA MIC';}catch(e){alert('Ruhusu Mic!');}} else {micS.getTracks().forEach(t=>t.stop()); micS=null; b.textContent='🎤 MIC';}}
+async function toggleRec(){let b=document.getElementById('recBtn'); if(!rec){init(); recDest=ctx.createMediaStreamDestination(); master.connect(recDest); rec=new MediaRecorder(recDest.stream); chunks=[]; rec.ondataavailable=e=>chunks.push(e.data); rec.onstop=()=>{let blob=new Blob(chunks,{type:'audio/webm'}); let u=URL.createObjectURL(blob); let a=document.getElementById('dl'); a.href=u; a.download='mixvibes-mix.webm'; a.style.display='block'; document.getElementById('recStatus').textContent='✅ Umerekodi!';}; rec.start(); b.textContent='⏹️ STOP REC'; document.getElementById('recText').textContent='REC ●'; document.getElementById('recStatus').textContent='🔴 Inarekodi...';} else {rec.stop(); rec=null; try{master.disconnect(recDest);}catch(e){} b.textContent='🔴 REC'; document.getElementById('recText').textContent='REC';}}
+setCross(50);
 </script>
 </body>
-                </html>
+  </html>

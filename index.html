@@ -3,54 +3,93 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CROSS DJ - MIXVIBES</title>
+<title>MIXVIBES V2 - CROSS DJ</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial}
-body{background:#2b2e33;color:#fff}
-header{background:#22252a;display:flex;justify-content:space-between;padding:12px}
-.jog{width:150px;height:150px;border-radius:50%;background:#ff7a00;border:6px solid #111;margin:10px auto;display:flex;align-items:center;justify-content:center}
-.jog-center{width:60px;height:60px;background:#4a2c14;border-radius:50%}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#1a1a2e;color:#fff;font-family:Arial;text-align:center}
+header{background:#16213e;padding:15px;font-size:22px;font-weight:bold;color:#ff7a00}
+.main{display:flex;gap:10px;padding:10px;justify-content:center;flex-wrap:wrap}
+.deck{flex:1;min-width:280px;background:#0f3460;border-radius:15px;padding:15px}
+.jog{width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,#333 0%,#000 70%);margin:10px auto;display:flex;align-items:center;justify-content:center;border:4px solid #ff7a00}
 .jog.spin{animation:spin 2s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.file-label{display:block;background:#3a3e44;padding:10px;border-radius:8px;margin:10px 0}
+.jog-center{width:60px;height:60px;background:#ff7a00;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#000}
+.file-label{display:block;background:#e94560;padding:12px;border-radius:10px;margin:10px 0;cursor:pointer}
 .file-label input{display:none}
-input[type=range]{accent-color:#ff7a00;width:100%}
-.main{display:flex;gap:10px;padding:10px}
-.deck{flex:1;text-align:center}
-.mixer{width:90px;text-align:center}
-.bottom{display:flex;justify-content:center;gap:12px;background:#22252a;padding:12px}
-.bottom button{background:#4a4e55;color:#fff;border:none;padding:12px 18px;border-radius:8px}
+button{padding:12px 20px;border:none;border-radius:10px;font-weight:bold;cursor:pointer;margin:5px}
+.play{background:#00ff88;color:#000;font-size:18px;width:100%}
+input[type=range]{width:100%;accent-color:#ff7a00;margin:8px 0}
+label{font-size:13px;color:#ccc}
+.mixer{background:#16213e;padding:15px;border-radius:15px;margin:10px}
+.cross{width:100%!important;accent-color:#e94560!important}
+h3{color:#ff7a00;margin-bottom:10px}
+.song{font-size:14px;color:#00ff88;margin:5px}
 </style>
 </head>
 <body>
-<header><h1>MIXVIBES</h1><h1>MIXVIBES</h1></header>
+<header>🎧 MIXVIBES V2 - CROSS DJ</header>
 <div class="main">
 <div class="deck">
-<label class="file-label">Load A <input type="file" onchange="loadSong('A',this)" accept="audio/*"></label>
-<div class="jog" id="jogA"><div class="jog-center"></div></div>
-<input type="range" id="tempoA" min="50" max="150" value="100" oninput="setTempo('A',this.value)"><p>TEMPO</p>
-<audio id="audioA"></audio></div>
-<div class="mixer"><p>FX</p><br><input type="range" id="crossfader" min="0" max="100" value="50" oninput="setVol()"><p>CROSSFADER</p></div>
-<div class="deck">
-<label class="file-label">Load B <input type="file" onchange="loadSong('B',this)" accept="audio/*"></label>
-<div class="jog" id="jogB"><div class="jog-center"></div></div>
-<input type="range" id="tempoB" min="50" max="150" value="100" oninput="setTempo('B',this.value)"><p>TEMPO</p>
-<audio id="audioB"></audio></div>
+<h3>DECK A</h3>
+<div class="jog" id="jogA"><div class="jog-center">A</div></div>
+<div class="song" id="songA">Hakuna wimbo</div>
+<label class="file-label">📁 CHAGUA WIMBO A<input type="file" id="fileA" accept="audio/*"></label>
+<button class="play" onclick="playA()">▶ PLAY A</button>
+<label>VOLUME A</label><input type="range" id="volA" min="0" max="1" step="0.01" value="0.8">
+<label>TEMPO A</label><input type="range" id="tempoA" min="0.5" max="1.5" step="0.01" value="1">
+<label>ECHO A</label><input type="range" id="echoA" min="0" max="0.8" step="0.01" value="0">
 </div>
-<div class="bottom">
-<button onclick="cueDeck('A')">CUE</button>
-<button onclick="playDeck('A')">PLAY</button>
-<button onclick="syncTempo()">SYNC</button>
-<button onclick="playDeck('B')">PLAY</button>
-<button onclick="cueDeck('B')">CUE</button>
-  </div><script>
-function loadSong(d,input){let a=document.getElementById('audio'+d);a.src=URL.createObjectURL(input.files[0]);a.play();document.getElementById('jog'+d).classList.add('spin');setVol();}
-function playDeck(d){let a=document.getElementById('audio'+d);a.play();document.getElementById('jog'+d).classList.add('spin');}
-function cueDeck(d){let a=document.getElementById('audio'+d);a.currentTime=0;a.play();}
-function setTempo(d,v){document.getElementById('audio'+d).playbackRate=v/100;}
-function syncTempo(){let t=document.getElementById('tempoA').value;document.getElementById('tempoB').value=t;setTempo('B',t);}
-function setVol(){let c=document.getElementById('crossfader').value/100;document.getElementById('audioA').volume=1-c;document.getElementById('audioB').volume=c;}
-setVol();
+<div class="deck">
+<h3>DECK B</h3>
+<div class="jog" id="jogB"><div class="jog-center">B</div></div>
+<div class="song" id="songB">Hakuna wimbo</div>
+<label class="file-label">📁 CHAGUA WIMBO B<input type="file" id="fileB" accept="audio/*"></label>
+<button class="play" onclick="playB()">▶ PLAY B</button>
+<label>VOLUME B</label><input type="range" id="volB" min="0" max="1" step="0.01" value="0.8">
+<label>TEMPO B</label><input type="range" id="tempoB" min="0.5" max="1.5" step="0.01" value="1">
+<label>ECHO B</label><input type="range" id="echoB" min="0" max="0.8" step="0.01" value="0">
+</div>
+</div>
+<div class="mixer">
+<h3>🎛️ MIXER</h3>
+<label>CROSSFADER: A ◀ ▶ B</label>
+<input type="range" class="cross" id="cross" min="0" max="1" step="0.01" value="0.5">
+<button onclick="autoMix()" style="background:#ff7a00;width:100%">🔀 AUTO MIX</button>
+</div>
+<script>
+let ctx=new (window.AudioContext||window.webkitAudioContext)();
+let a={audio:new Audio(),gain:null,delay:null,src:null,playing:false};
+let b={audio:new Audio(),gain:null,delay:null,src:null,playing:false};
+function setup(d,volId,echoId){
+ d.gain=ctx.createGain(); d.delay=ctx.createDelay(1); d.delay.delayTime.value=0.3;
+ let fb=ctx.createGain(); fb.gain.value=0.3;
+ d.src=ctx.createMediaElementSource(d.audio);
+ d.src.connect(d.gain); d.gain.connect(ctx.destination);
+ d.src.connect(d.delay); d.delay.connect(fb); fb.connect(d.delay); d.delay.connect(d.gain);
+}
+setup(a,'volA','echoA'); setup(b,'volB','echoB');
+function loadFile(input,deck,songEl,jogEl){
+ let f=input.files[0]; if(!f) return;
+ deck.audio.src=URL.createObjectURL(f);
+ document.getElementById(songEl).textContent="🎵 "+f.name;
+}
+document.getElementById('fileA').onchange=function(){loadFile(this,a,'songA')};
+document.getElementById('fileB').onchange=function(){loadFile(this,b,'songB')};
+function playA(){ ctx.resume(); if(a.playing){a.audio.pause();a.playing=false;document.getElementById('jogA').classList.remove('spin')} else {a.audio.play();a.playing=true;document.getElementById('jogA').classList.add('spin')} }
+function playB(){ ctx.resume(); if(b.playing){b.audio.pause();b.playing=false;document.getElementById('jogB').classList.remove('spin')} else {b.audio.play();b.playing=true;document.getElementById('jogB').classList.add('spin')} }
+function update(){
+ let c=parseFloat(document.getElementById('cross').value);
+ let vA=parseFloat(document.getElementById('volA').value);
+ let vB=parseFloat(document.getElementById('volB').value);
+ a.gain.gain.value=vA*(1-c); b.gain.gain.value=vB*c;
+ a.audio.playbackRate=parseFloat(document.getElementById('tempoA').value);
+ b.audio.playbackRate=parseFloat(document.getElementById('tempoB').value);
+}
+setInterval(update,100);
+function autoMix(){
+ let c=document.getElementById('cross'); let v=parseFloat(c.value);
+ let i=setInterval(()=>{ v+=0.02; if(v>=1){clearInterval(i)} c.value=v; },100);
+}
 </script>
 </body>
 </html>
